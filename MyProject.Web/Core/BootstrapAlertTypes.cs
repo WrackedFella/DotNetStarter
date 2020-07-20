@@ -1,4 +1,4 @@
-﻿namespace SafeBaby.Web.Core
+﻿namespace MyProject.Web.Core
 {
     public static class BootstrapAlertTypes
     {

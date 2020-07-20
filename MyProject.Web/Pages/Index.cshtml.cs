@@ -1,16 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Http;
+using MyProject.Domain;
+using MyProject.Web.Core;
 
 namespace MyProject.Web.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : PageModelBase
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+        public IndexModel(MyProjectContext context) : base(context) { }
 
         public void OnGet()
         {

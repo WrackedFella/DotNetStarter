@@ -11,6 +11,15 @@ namespace MyProject.Domain
 {
     public class MyProjectContext : DbContext
     {
+        public MyProjectContext()
+        {
+        }
+
+        public MyProjectContext(DbContextOptions options)
+            : base(options)
+        {
+        }
+
         #region Tables
 
         // People
@@ -22,6 +31,62 @@ namespace MyProject.Domain
         public virtual DbSet<AuditHistory> AuditHistory { get; set; }
 
         #endregion Tables
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=.;Initial Catalog=MyProject;Integrated Security=True");
+            }
+
+#if DEBUG
+            optionsBuilder.EnableSensitiveDataLogging();
+#endif
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            _ = modelBuilder.EnableAutoHistory<AuditHistory>(o =>
+            {
+                o.LimitChangedLength = false;
+                o.RowIdMaxLength = 4000;
+            });
+
+            foreach (var et in modelBuilder.Model.GetEntityTypes())
+            {
+                var uid = et.GetProperties().FirstOrDefault(p => p.IsKey());
+                if (uid != null && uid.ClrType == typeof(Guid))
+                {
+                    uid.SetDefaultValueSql("(newid())");
+                }
+
+                foreach (var dateProp in et.GetProperties().Where(p => p.ClrType == typeof(DateTime)))
+                {
+                    dateProp.SetDefaultValueSql("(getdate())");
+                }
+
+                foreach (var decimalProp in et.GetProperties().Where(p => p.ClrType == typeof(decimal)))
+                {
+                    decimalProp.SetColumnType("decimal(18, 6)");
+                }
+            }
+
+            #region Person
+
+            modelBuilder.Entity<Address>()
+                .ToTable("Addresses", SchemaNames.Person);
+            //.HasData(SeedData.SeedData.Addresses);
+            modelBuilder.Entity<Person>()
+                .ToTable("Person", SchemaNames.Person);
+            //.HasData(SeedData.SeedData.Persons);
+
+            #endregion
+
+            #region System
+
+            #endregion
+
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {

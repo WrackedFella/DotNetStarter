@@ -1,0 +1,39 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MyProject.Web.Extensions
+@model MyProject.Web.Pages.Persons.CreateModel
+
+@inject IHtmlLocalizer<LocalizedStrings> HtmlLocalizer
+
+@{
+    ViewData["Title"] = HtmlLocalizer[Model.GetPageTitle() + " Person"];
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>@HtmlLocalizer["Person"]</h4>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            @Html.EditorFor(m => m.Record)
+            <div class="form-row">
+                <div class="col-12">
+                    <div class="form-group text-right">
+                        <input type="submit" value="@HtmlLocalizer["Save"]" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+@section ActionsMenu {
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            @Html.BackButton(string.Format(HtmlLocalizer["ToListTemplate"].Value, HtmlLocalizer["Persons"].Value) ?? "", "/Persons")
+        </li>
+    </ul>
+}

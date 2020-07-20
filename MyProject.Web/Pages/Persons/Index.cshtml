@@ -1,0 +1,39 @@
+﻿@page "{handler?}"
+@using Microsoft.AspNetCore.Mvc.Localization
+@model MyProject.Web.Pages.Persons.IndexModel
+
+@inject IHtmlLocalizer<LocalizedStrings> HtmlLocalizer
+
+@{
+    ViewData["Title"] = string.Format(HtmlLocalizer["IndexTemplate"].Value, HtmlLocalizer["Persons"].Value);
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>@HtmlLocalizer["Persons"]</h4>
+    </div>
+    <div class="card-body">
+        @*ToDo: show a grid or table.*@
+    </div>
+</div>
+
+@section ActionsMenu {
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="btn btn-primary mb-3 nav-link" asp-page="Create">
+                @string.Format(HtmlLocalizer["CreateTemplate"].Value, HtmlLocalizer["Person"].Value)
+            </a>
+        </li>
+        <li>
+            <hr/>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary mb-3 nav-link disabled gridRowSelectTarget" 
+               href="/Persons/Details/gridIdValue">
+                <span class="d-inline-block text-center fas fa-file-alt"></span>
+                @string.Format(HtmlLocalizer["DetailsTemplate"].Value, HtmlLocalizer["Mother"].Value)
+            </a>
+        </li>
+    </ul>
+}

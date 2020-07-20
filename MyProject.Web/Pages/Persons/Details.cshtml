@@ -1,0 +1,38 @@
+﻿@page "{id:guid}"
+@using Microsoft.AspNetCore.Mvc.Localization
+@using MyProject.Web.Extensions
+@model MyProject.Web.Pages.Persons.DetailsModel
+
+@inject IHtmlLocalizer<LocalizedStrings> HtmlLocalizer
+
+@{
+    var recordTypeName = HtmlLocalizer["Person"].Value;
+    ViewData["Title"] = HtmlLocalizer["DetailsTemplate", recordTypeName].Value;
+}
+
+
+
+<div class="card">
+    <div class="card-header">
+        <h4>@recordTypeName</h4>
+    </div>
+    <div class="card-body">
+        @Html.DisplayFor(m => m.Record)
+    </div>
+</div>
+
+@section ActionsMenu {
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            @Html.BackButton(string.Format(HtmlLocalizer["ToListTemplate"].Value, HtmlLocalizer["Persons"].Value) ?? "", "/Persons")
+        </li>
+        <li class="nav-item">
+            <hr/>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-primary mb-3 nav-link" href="/Persons/Edit/@Model.RecordId">
+                @HtmlLocalizer["EditTemplate", recordTypeName]
+            </a>
+        </li>
+    </ul>
+}

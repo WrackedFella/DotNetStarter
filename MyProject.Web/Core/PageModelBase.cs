@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using MyProject.Domain;
-using MyProject.Web.Core;
-using MyProject.Domain.Enums;
+using MyProject.Domain.Core;
 
-namespace SafeBaby.Web.Core
+namespace MyProject.Web.Core
 {
     public abstract class PageModelBase : PageModel
     {
@@ -22,6 +19,15 @@ namespace SafeBaby.Web.Core
             Expires = DateTimeOffset.Now.AddDays(30)
         };
 
+        protected PageModelBase(MyProjectContext context)
+        {
+            this.Context = context;
+            this.Username = "User";
+            
+            this.RoleName = Role.Anonymous;
+            return;
+        }
+
         protected PageModelBase(MyProjectContext context, IHttpContextAccessor contextAccessor)
         {
             this.Context = context;
@@ -30,24 +36,24 @@ namespace SafeBaby.Web.Core
                 return;
             }
             this.Username = contextAccessor.GetUserName();
-            if (contextAccessor.HttpContext.User.IsInRole(Role.Anonymous.Name))
+            if (contextAccessor.HttpContext.User.IsInRole(Role.Anonymous))
             {
-                this.RoleName = Role.Anonymous.Name;
+                this.RoleName = Role.Anonymous;
                 return;
             }
-            if (contextAccessor.HttpContext.User.IsInRole(Role.User.Name))
+            if (contextAccessor.HttpContext.User.IsInRole(Role.User))
             {
-                this.RoleName = Role.User.Name;
+                this.RoleName = Role.User;
                 return;
             }
-            if (contextAccessor.HttpContext.User.IsInRole(Role.Admin.Name))
+            if (contextAccessor.HttpContext.User.IsInRole(Role.Admin))
             {
-                this.RoleName = Role.Admin.Name;
+                this.RoleName = Role.Admin;
                 return;
             }
-            if (contextAccessor.HttpContext.User.IsInRole(Role.Developer.Name))
+            if (contextAccessor.HttpContext.User.IsInRole(Role.Developer))
             {
-                this.RoleName = Role.Developer.Name;
+                this.RoleName = Role.Developer;
                 return;
             }
         }

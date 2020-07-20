@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using MyProject.Domain;
 using MyProject.Domain.Core;
 
-namespace SafeBaby.Web.Core.PageModels
+namespace MyProject.Web.Core.PageModels
 {
     public abstract class HistoryModelBase<TDomainObject> : PageModelBase
         where TDomainObject : DomainObject

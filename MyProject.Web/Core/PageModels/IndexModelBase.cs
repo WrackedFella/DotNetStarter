@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using MyProject.Domain;
 using MyProject.Domain.Core;
 
-namespace SafeBaby.Web.Core.PageModels
+namespace MyProject.Web.Core.PageModels
 {
     public abstract class IndexModelBase<TDomainObject> : PageModel
         where TDomainObject : DomainObject

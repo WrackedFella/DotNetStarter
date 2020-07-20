@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Domain;
 using MyProject.Domain.Core;
-using MyProject.Web.Core;
 
-namespace SafeBaby.Web.Core
+namespace MyProject.Web.Core
 {
     [Route("api/[controller]")]
     [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]

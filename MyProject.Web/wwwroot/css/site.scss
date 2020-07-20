@@ -1,0 +1,72 @@
+﻿
+@import "./_variables.scss";
+// Font-Awesome
+@import "../lib/fa/scss/fontawesome";
+@import "../lib/fa/scss/brands";
+@import "../lib/fa/scss/solid";
+
+// Bootstrap (Global Import)
+@import "../lib/bootstrap/scss/bootstrap";
+
+/* Or we could include only the modules we use (better performance)
+// Required
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+// Optional
+@import "node_modules/bootstrap/scss/reboot";
+@import "node_modules/bootstrap/scss/type";
+@import "node_modules/bootstrap/scss/images";
+@import "node_modules/bootstrap/scss/code";
+@import "node_modules/bootstrap/scss/grid";
+*/
+
+// Begin custom CSS styling here. **********************************************************
+body {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    min-height: 5rem;
+    z-index: 1000;
+}
+nav {
+    min-height: 5rem;
+}
+
+main {
+    @extend .py-3;
+    
+    padding-right: 1rem;
+}
+
+footer {
+    @extend .border-top, .text-muted, .fixed-bottom, .bg-light;
+}
+
+#MainContent {
+    @extend .container-fluid, .position-absolute;
+
+    top: 5rem;
+    bottom: 5rem;
+    left: 0;
+    right: 0;
+}
+
+#ActionsMenu {
+    @extend .bg-light, .py-3;
+
+    & > .btn {
+        min-width: 13rem;
+    }
+}

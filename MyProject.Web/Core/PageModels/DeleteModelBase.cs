@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyProject.Domain;
 using MyProject.Domain.Core;
 
-namespace SafeBaby.Web.Core.PageModels
+namespace MyProject.Web.Core.PageModels
 {
     public abstract class DeleteModelBase<TDomainObject> : PageModelBase
         where TDomainObject : DomainObject

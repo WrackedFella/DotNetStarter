@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyProject.Domain;
 using MyProject.Domain.Core;
-using MyProject.Web.Core;
 
-namespace SafeBaby.Web.Core.PageModels
+namespace MyProject.Web.Core.PageModels
 {
     public abstract class EditModelBase<TDomainObject> : PageModelBase
         where TDomainObject : DomainObject, new()
