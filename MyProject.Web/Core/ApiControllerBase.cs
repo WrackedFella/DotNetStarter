@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -34,7 +33,6 @@ namespace SafeBaby.Web.Core
     {
         protected readonly MyProjectContext Context;
         protected string Username { get; }
-        public IPAddress PrinterIpAddress { get; set; }
         public bool IsUnitTest { get; set; } = false;
 
         protected ApiControllerBase(MyProjectContext context, IHttpContextAccessor contextAccessor)
@@ -107,21 +105,6 @@ namespace SafeBaby.Web.Core
             await this.Context.SaveChangesAsync(this.Username);
 
             return Ok();
-        }
-
-        protected async Task<bool> TryRefreshPrinterIpAddressAsync()
-        {
-            if (this.IsUnitTest)
-            {
-                return true;
-            }
-            var savedIp = this.Request?.Cookies["savedPrinter"];
-            if (!string.IsNullOrEmpty(savedIp) && IPAddress.TryParse(savedIp, out var parsedIp))
-            {
-                this.PrinterIpAddress = parsedIp;
-                return true;
-            }
-            return false;
         }
     }
 }
