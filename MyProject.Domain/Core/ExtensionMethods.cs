@@ -20,7 +20,20 @@ namespace MyProject.Web.Core
                     && p.Metadata.FieldInfo?.DeclaringType != typeof(DomainObject)
                     && p.Metadata.PropertyInfo.CanWrite
                     && p.Metadata.PropertyInfo.CustomAttributes.All(a => a.AttributeType != typeof(DatabaseGeneratedAttribute)));
-            foreach (var entityProp in props)
+            
+            // Gather props from complex types
+            var members = entity.Members
+                .Where(p =>
+                    p != null
+                    && p.GetType() == typeof(ReferenceEntry)
+                    && p.Metadata.PropertyInfo.GetAccessors().All(x => !x.IsVirtual)
+                    && p.Metadata.FieldInfo?.DeclaringType != typeof(DomainObject)
+                    && p.Metadata.PropertyInfo.CanWrite
+                    && p.Metadata.PropertyInfo.CustomAttributes.All(a => a.AttributeType != typeof(DatabaseGeneratedAttribute)));
+            var aggregate = props.Concat<Object>(members);
+            
+            // Check for and apply changes
+            foreach (MemberEntry entityProp in aggregate)
             {
                 var modifiedProp = newRecord.GetType().GetProperties()
                     .FirstOrDefault(p => p.Name == entityProp.Metadata.Name);
